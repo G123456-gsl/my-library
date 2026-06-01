@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+android {
+    compileSdkVersion 34
+    buildToolsVersion "34.0.0"
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 34
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    namespace 'com.somsakelect.android.mqtt'
+}
+
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // 定义 release 版本的发布产物
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.project'  // 按模块包名定义，便于区分
+                artifactId = 'mqtt'                  // 模块名：简洁标识
+                version = '1.0.1'                    // 版本号：后续更新改这里
+            }
+        }
+
+        // 配置发布仓库：和 basemodule 同目录 D:\MyLibrary（统一管理）
+        repositories {
+            maven {
+                // Windows 路径需用双反斜杠转义
+                url = uri('D:\\MyLibrary')
+                // 如果想发布到默认 .m2 仓库，替换为：
+                // url = uri(System.getProperty('user.home') + '/.m2/repository')
+            }
+        }
+    }
+}
