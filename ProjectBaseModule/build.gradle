@@ -64,7 +64,7 @@ afterEvaluate {
         repositories {
             maven {
                 // 本地 Maven 仓库路径（Windows/macOS/Linux 通用）
-                url = uri('D:\\MyLibrary')
+                url = uri(new File(System.getProperty("user.home"), "MyLibrary").toURI())
             }
         }
     }

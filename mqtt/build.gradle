@@ -57,7 +57,7 @@ afterEvaluate {
         repositories {
             maven {
                 // Windows 路径需用双反斜杠转义
-                url = uri('D:\\MyLibrary')
+                url = uri(new File(System.getProperty("user.home"), "MyLibrary").toURI())
                 // 如果想发布到默认 .m2 仓库，替换为：
                 // url = uri(System.getProperty('user.home') + '/.m2/repository')
             }
